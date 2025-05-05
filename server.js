@@ -1,38 +1,36 @@
-const express = require("express");
-const cors = require("cors");
-const axios = require("axios");
+const express = require('express');
+const axios = require('axios');
+const cors = require('cors');
 
 const app = express();
+const PORT = process.env.PORT || 10000;
+
+// Clave real de Gemini (ya la confirmamos antes)
+const GEMINI_API_KEY = "AIzaSyAu0fmLj9IyPzRh5oEAim_Xvaqr4Qfa4Dk";
+
 app.use(cors());
 app.use(express.json());
 
-const GEMINI_API_KEY = "AIzaSyAu0fmLj9IyPzRh5oEAim_Xvaqr4Qfa4Dk"; // Tu clave real
-
-app.post("/chat-gemini", async (req, res) => {
-  const { message, context } = req.body;
+app.post('/chat-gemini', async (req, res) => {
+  const { mensaje } = req.body;
 
   try {
     const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
       {
-        contents: [
-          {
-            role: "user",
-            parts: [{ text: `${context}\n\nConsulta: ${message}` }]
-          }
-        ]
+        contents: [{ parts: [{ text: mensaje }] }]
       }
     );
 
-    const reply = response.data.candidates?.[0]?.content?.parts?.[0]?.text || "No entendí tu mensaje.";
-    res.json({ reply });
+    const respuestaIA = response.data.candidates[0]?.content?.parts[0]?.text || "No se recibió respuesta de Gemini.";
+    res.json({ respuesta: respuestaIA });
+
   } catch (error) {
-    console.error("Error con Gemini:", error.message);
-    res.status(500).json({ reply: "Ocurrió un error al procesar tu mensaje." });
+    console.error("Error al llamar a Gemini:", error.message);
+    res.status(500).json({ error: "Error al comunicarse con Gemini" });
   }
 });
 
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
