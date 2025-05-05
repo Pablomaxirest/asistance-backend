@@ -5,8 +5,8 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// Clave que funcionaba con /v1beta (API 2)
-const GEMINI_API_KEY = "AIzaSyDyTRU5PH0mzgLXqB0ViwlfxcWoe0UTMdY";
+// ✅ Clave API generada desde Google AI Studio (válida y activa)
+const GEMINI_API_KEY = "AIzaSyA9YKTSTY8BMU3PC7on5u_2fUSqJJt6RmM";
 
 app.use(cors());
 app.use(express.json());
@@ -22,13 +22,14 @@ app.post('/chat', async (req, res) => {
       }
     );
 
+    // ✅ Manejo robusto de la respuesta
     let respuestaIA = "No se recibió respuesta válida.";
     if (response.data && response.data.candidates && response.data.candidates.length > 0) {
       const parts = response.data.candidates[0].content?.parts;
       if (parts && parts.length > 0 && parts[0].text) {
         respuestaIA = parts[0].text;
       } else {
-        console.warn("⚠️ La respuesta no contenía texto en parts[0].", parts);
+        console.warn("⚠️ La respuesta no contenía texto válido en parts[0]:", parts);
       }
     } else {
       console.warn("⚠️ No se encontraron candidates en la respuesta:", response.data);
@@ -37,8 +38,8 @@ app.post('/chat', async (req, res) => {
     res.json({ respuesta: respuestaIA });
 
   } catch (error) {
-    console.error("❌ Error al llamar a Gemini:", error.response?.data || error.message);
-    res.status(500).json({ error: "Error al comunicarse con Gemini" });
+    console.error("❌ Error al llamar a IA:", error.response?.data || error.message);
+    res.status(500).json({ error: "Error al comunicarse con la IA" });
   }
 });
 
