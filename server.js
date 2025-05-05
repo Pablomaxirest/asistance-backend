@@ -6,7 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 10000;
 
 // Clave real de Gemini (ya la confirmamos antes)
-const GEMINI_API_KEY = "AIzaSyAu0fmLj9IyPzRh5oEAim_Xvaqr4Qfa4Dk";
+const GEMINI_API_KEY = "AIzaSyDyTRU5PH0mzgLXqB0ViwlfxcWoe0UTMdY";
 
 app.use(cors());
 app.use(express.json());
