@@ -11,7 +11,6 @@ const GEMINI_API_KEY = "AIzaSyAu0fmLj9IyPzRh5oEAim_Xvaqr4Qfa4Dk";
 app.use(cors());
 app.use(express.json());
 
-// Ruta del chat
 app.post('/chat', async (req, res) => {
   const { mensaje } = req.body;
 
@@ -28,8 +27,19 @@ app.post('/chat', async (req, res) => {
       }
     );
 
-    console.log("✅ Respuesta completa de IA:", JSON.stringify(response.data, null, 2));
-    const respuestaIA = response.data.candidates?.[0]?.content?.parts?.[0]?.text || "No se recibió respuesta de IA.";
+    // Manejo robusto de respuesta
+    let respuestaIA = "No se recibió respuesta válida.";
+    if (response.data && response.data.candidates && response.data.candidates.length > 0) {
+      const parts = response.data.candidates[0].content?.parts;
+      if (parts && parts.length > 0 && parts[0].text) {
+        respuestaIA = parts[0].text;
+      } else {
+        console.warn("⚠️ La respuesta no contenía texto en parts[0]:", parts);
+      }
+    } else {
+      console.warn("⚠️ No se encontraron candidates en la respuesta:", response.data);
+    }
+
     res.json({ respuesta: respuestaIA });
 
   } catch (error) {
