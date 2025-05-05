@@ -3,7 +3,7 @@ const axios = require('axios');
 const cors = require('cors');
 require('dotenv').config(); // Carga variables del .env
 
-const promptGlobal = require('./pront/prompt_global'); // 👉 Importa el prompt base
+const promptGlobal = require('./prompt/prompt_global'); // 👉 Importa el prompt base
 
 const app = express();
 const PORT = process.env.PORT || 10000;
