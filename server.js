@@ -5,18 +5,19 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// Clave real confirmada
+// Clave real de Gemini confirmada
 const GEMINI_API_KEY = "AIzaSyAu0fmLj9IyPzRh5oEAim_Xvaqr4Qfa4Dk";
 
 app.use(cors());
 app.use(express.json());
 
+// Ruta principal del chat
 app.post('/chat', async (req, res) => {
   const { mensaje } = req.body;
 
   try {
     const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1/models/gemini-pro-1.5:generateContent?key=${GEMINI_API_KEY}`,
       {
         contents: [
           {
@@ -27,6 +28,7 @@ app.post('/chat', async (req, res) => {
       }
     );
 
+    console.log("Respuesta completa de Gemini:", JSON.stringify(response.data, null, 2));
     const respuestaIA = response.data.candidates?.[0]?.content?.parts?.[0]?.text || "No se recibió respuesta de Gemini.";
     res.json({ respuesta: respuestaIA });
 
