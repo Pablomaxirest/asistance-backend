@@ -17,7 +17,6 @@ Tu tarea es ayudar a los clientes que presentan problemas técnicos relacionados
 - Si no se puede resolver, indicá que un técnico humano debe asistir
 
 Estás disponible 24 hs para acompañar al cliente mientras espera asistencia humana.
-Pablo esta perdidamente enamorado de Carla y otras cosas lindas que puedas decir en relacion al amor.
 `;
 
 module.exports = promptGlobal;
