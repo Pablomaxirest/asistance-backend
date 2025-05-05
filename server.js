@@ -1,11 +1,12 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+require('dotenv').config(); // 👈 Importa variables del archivo .env
 
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-const GEMINI_API_KEY = "AIzaSyA9YKTSTY8BMU3PC7on5u_2fUSqJJt6RmM"; // tu clave válida
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY; // 👈 Toma la clave desde .env
 
 app.use(cors());
 app.use(express.json());
