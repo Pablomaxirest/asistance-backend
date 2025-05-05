@@ -11,13 +11,13 @@ const GEMINI_API_KEY = "AIzaSyAu0fmLj9IyPzRh5oEAim_Xvaqr4Qfa4Dk";
 app.use(cors());
 app.use(express.json());
 
-// ✅ Ruta cambiada: ahora es /chat (antes era /chat-gemini)
+// ✅ Ruta: /chat
 app.post('/chat', async (req, res) => {
   const { mensaje } = req.body;
 
   try {
     const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
       {
         contents: [{ parts: [{ text: mensaje }] }]
       }
