@@ -22,7 +22,9 @@ app.post('/chat-gemini', async (req, res) => {
       }
     );
 
-    const respuestaIA = response.data.candidates[0]?.content?.parts[0]?.text || "No se recibió respuesta de Gemini.";
+    console.log("Respuesta completa de Gemini:", JSON.stringify(response.data, null, 2));
+    const respuestaIA = response.data.candidates?.[0]?.content?.parts?.[0]?.text || "No se recibió respuesta de Gemini.";
+
     res.json({ respuesta: respuestaIA });
 
   } catch (error) {
