@@ -21,8 +21,8 @@ app.post('/chat', async (req, res) => {
       `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${GEMINI_API_KEY}`,
       {
         contents: [
-          { parts: [{ text: promptGlobal }] }, // 👉 prompt base con reglas
-          { parts: [{ text: mensaje }] }       // 👉 mensaje del usuario
+          { role: "user", parts: [{ text: promptGlobal }] },
+          { role: "user", parts: [{ text: mensaje }] }
         ]
       }
     );
