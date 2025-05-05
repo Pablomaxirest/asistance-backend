@@ -1,12 +1,13 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
-require('dotenv').config(); // 👈 Importa variables del archivo .env
+require('dotenv').config(); // Carga variables del .env
+
+const promptGlobal = require('./pront/prompt_global'); // 👉 Importa el prompt base
 
 const app = express();
 const PORT = process.env.PORT || 10000;
-
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY; // 👈 Toma la clave desde .env
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 app.use(cors());
 app.use(express.json());
@@ -18,7 +19,10 @@ app.post('/chat', async (req, res) => {
     const response = await axios.post(
       `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${GEMINI_API_KEY}`,
       {
-        contents: [{ parts: [{ text: mensaje }] }]
+        contents: [
+          { role: "system", parts: [{ text: promptGlobal }] },
+          { role: "user", parts: [{ text: mensaje }] }
+        ]
       }
     );
 
